@@ -1,0 +1,115 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'androidx.navigation.safeargs'
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.weathermvvm"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+
+    def dep = rootProject.ext.dep_dependencies
+    def test = rootProject.ext.dep_test
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation dep.kotlin
+    implementation dep.appcompat
+
+    // Navigation
+    implementation dep.navigation_fragment
+    implementation dep.navigation_ui
+    implementation dep.navigation_fragment_ktx
+    implementation dep.navigation_ui_ktx
+
+
+    implementation dep.core_ktx
+    implementation dep.constraintlayout
+
+    // Room
+    //noinspection GradleDependency
+    implementation dep.room_runtime
+    implementation dep.legacy
+    kapt dep.room_compiler
+
+    // Gson
+    implementation dep.gson
+
+    // Kotlin Android Coroutines
+    implementation dep.coroutines_core
+    implementation dep.coroutines_android
+
+    // Retrofit
+    implementation dep.retrofit
+    implementation dep.converter_gson
+    implementation dep.retrofit2_coroutines_adapter
+
+    // ViewModel
+    implementation dep.lifecycle_extentions
+    implementation dep.lifecycle_viewmodel_ktx
+    kapt dep.lifecycle_compiler
+
+    // Kodein
+    implementation dep.kodein_generic
+    implementation dep.kodein_framework
+
+    // Better dateTime-time support even on older Android versions
+    implementation dep.threetenabp
+
+    // Glide
+    implementation dep.glide
+    kapt dep.glide_compiler
+
+    // Groupie RecyclerView
+    implementation dep.groupie
+    implementation dep.groupie_kotlin
+
+    // Preference
+    implementation dep.preference
+
+    // WeatherLocation
+    implementation dep.play_services_location
+
+    // New Material Design
+    implementation dep.material
+
+    testImplementation test.junit
+    androidTestImplementation test.runner
+    androidTestImplementation test.espresso
+
+}
